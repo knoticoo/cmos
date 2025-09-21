@@ -39,6 +39,10 @@ router.post('/register', authenticateToken, requireAdmin, [
         [username, hashedPassword],
         function(err) {
           if (err) {
+            // Check if it's a unique constraint violation
+            if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+              return res.status(400).json({ message: 'Username already exists' });
+            }
             return res.status(500).json({ message: 'Error creating user' });
           }
 
@@ -50,6 +54,8 @@ router.post('/register', authenticateToken, requireAdmin, [
             [userId, databaseName],
             async (err) => {
               if (err) {
+                // If user database creation fails, clean up the user
+                db.run('DELETE FROM users WHERE id = ?', [userId]);
                 return res.status(500).json({ message: 'Error creating user database' });
               }
 
@@ -62,6 +68,9 @@ router.post('/register', authenticateToken, requireAdmin, [
                   databaseName: databaseName
                 });
               } catch (dbErr) {
+                // If user database initialization fails, clean up both entries
+                db.run('DELETE FROM user_databases WHERE user_id = ?', [userId]);
+                db.run('DELETE FROM users WHERE id = ?', [userId]);
                 res.status(500).json({ message: 'Error initializing user database' });
               }
             }
