@@ -1,0 +1,1112 @@
+/* Alliances Page - Kings Choice Theme */
+.alliances {
+  min-height: calc(100vh - 90px);
+  padding: var(--space-8) 0;
+  background: linear-gradient(135deg, var(--gray-50) 0%, white 50%, var(--accent-purple-light) 100%);
+  animation: fadeIn 0.8s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.alliances::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 1;
+  animation: float 12s ease-in-out infinite;
+}
+
+.alliances::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 1;
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+.alliances > * {
+  position: relative;
+  z-index: 2;
+}
+
+.alliances .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+/* Alliances Header */
+.alliances .page-header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+  animation: slideDown 0.8s ease-out;
+}
+
+.alliances .page-title {
+  font-size: var(--font-size-4xl);
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent-purple), var(--primary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-4);
+  position: relative;
+}
+
+/* Removed ::before and ::after pseudo-elements to prevent icon duplication */
+
+.alliances .page-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--gray-600);
+  font-weight: 500;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Stats Section */
+.alliances-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-10);
+}
+
+.alliances-stats .stat-card {
+  background: white;
+  padding: var(--space-8);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  transition: all var(--transition-normal);
+  border: 1px solid var(--gray-200);
+  position: relative;
+  overflow: hidden;
+  animation: scaleIn 0.6s ease-out both;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+}
+
+.alliances-stats .stat-card:nth-child(1) { animation-delay: 0.1s; }
+.alliances-stats .stat-card:nth-child(2) { animation-delay: 0.2s; }
+.alliances-stats .stat-card:nth-child(3) { animation-delay: 0.3s; }
+
+.alliances-stats .stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-purple), var(--primary-color));
+  transform: scaleX(0);
+  transition: transform var(--transition-normal);
+  transform-origin: left;
+}
+
+.alliances-stats .stat-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-2xl);
+}
+
+.alliances-stats .stat-card:hover::before {
+  transform: scaleX(1);
+}
+
+.alliances-stats .stat-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-4);
+  line-height: 1;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alliances-stats .stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--accent-purple);
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+.alliances-stats .stat-label {
+  color: var(--gray-600);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Action Bar */
+.alliances-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+  padding: var(--space-6);
+  background: white;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-200);
+  animation: slideUp 0.8s ease-out 0.3s both;
+}
+
+.alliances-action-bar h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Removed ::before pseudo-element to prevent icon duplication */
+
+.alliances-action-bar .btn {
+  padding: var(--space-3) var(--space-6);
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Removed ::before pseudo-element to prevent icon duplication */
+
+/* Alliances Grid */
+.alliances-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: var(--space-8);
+  animation: slideUp 0.8s ease-out 0.5s both;
+}
+
+.alliance-card {
+  background: white;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  position: relative;
+  animation: scaleIn 0.6s ease-out both;
+}
+
+.alliance-card:nth-child(1) { animation-delay: 0.1s; }
+.alliance-card:nth-child(2) { animation-delay: 0.2s; }
+.alliance-card:nth-child(3) { animation-delay: 0.3s; }
+.alliance-card:nth-child(4) { animation-delay: 0.4s; }
+.alliance-card:nth-child(5) { animation-delay: 0.5s; }
+.alliance-card:nth-child(6) { animation-delay: 0.6s; }
+
+.alliance-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--accent-purple), var(--primary-color));
+  transform: scaleX(0);
+  transition: transform var(--transition-normal);
+  transform-origin: left;
+}
+
+.alliance-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-2xl);
+}
+
+.alliance-card:hover::before {
+  transform: scaleX(1);
+}
+
+.alliance-card.has-victories::before {
+  background: var(--gradient-gold);
+  transform: scaleX(1);
+}
+
+.alliance-header {
+  padding: var(--space-8);
+  background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+  border-bottom: 1px solid var(--gray-200);
+  position: relative;
+}
+
+.alliance-name {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0 0 var(--space-3) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Removed ::before pseudo-elements to prevent icon duplication */
+
+.alliance-date {
+  color: var(--gray-600);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Removed ::before pseudo-element to prevent icon duplication */
+
+/* Removed absolute positioning that was causing buttons to appear in wrong location */
+
+/* Moved alliance-actions .btn styles to the main alliance-actions section below */
+
+/* Removed ::before pseudo-elements to prevent icon duplication */
+
+/* Alliance Details */
+.alliance-details {
+  padding: var(--space-8);
+}
+
+.alliance-victories {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  background: linear-gradient(135deg, var(--success-light) 0%, var(--accent-gold-light) 100%);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--success-color);
+  margin-bottom: var(--space-4);
+  position: relative;
+  overflow: hidden;
+}
+
+.alliance-victories::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: shimmer 3s infinite;
+}
+
+.alliance-victories-label {
+  font-weight: 600;
+  color: var(--success-color);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  position: relative;
+  z-index: 2;
+}
+
+/* Removed ::before pseudo-element to prevent icon duplication */
+
+.alliance-victories-count {
+  font-weight: 700;
+  color: var(--gray-900);
+  position: relative;
+  z-index: 2;
+}
+
+.alliance-members {
+  margin-top: var(--space-4);
+}
+
+.alliance-members-title {
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: var(--space-3);
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Removed ::before pseudo-element to prevent icon duplication */
+
+.member-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.member-tag {
+  padding: var(--space-1) var(--space-3);
+  background: var(--accent-purple-light);
+  color: var(--accent-purple);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  border: 1px solid var(--accent-purple);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* Removed ::before pseudo-element to prevent icon duplication */
+
+/* Empty State */
+.alliances .empty-state {
+  text-align: center;
+  padding: var(--space-16) var(--space-8);
+  background: white;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  border: 2px dashed var(--accent-purple);
+  animation: fadeIn 0.8s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.alliances .empty-state::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-purple), var(--primary-color));
+}
+
+.alliances .empty-state-icon {
+  font-size: 5rem;
+  margin-bottom: var(--space-8);
+  animation: bounce 2s infinite;
+  display: block;
+}
+
+.alliances .empty-state-title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+  color: var(--gray-800);
+}
+
+.alliances .empty-state-text {
+  font-size: var(--font-size-base);
+  color: var(--gray-600);
+  margin-bottom: var(--space-8);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.alliances .empty-state .btn {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+}
+
+/* Alliance Table (Alternative Layout) */
+.alliances-table-container {
+  background: white;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+  animation: slideUp 0.8s ease-out 0.5s both;
+}
+
+.alliances-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.alliances-table thead {
+  background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+}
+
+.alliances-table th {
+  padding: var(--space-6);
+  text-align: left;
+  font-weight: 700;
+  color: var(--gray-800);
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--gray-200);
+}
+
+.alliances-table td {
+  padding: var(--space-6);
+  border-bottom: 1px solid var(--gray-200);
+  vertical-align: middle;
+}
+
+.alliances-table tbody tr {
+  transition: all var(--transition-fast);
+}
+
+.alliances-table tbody tr:hover {
+  background: var(--gray-50);
+}
+
+.alliances-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.alliance-name-cell {
+  font-weight: 600;
+  color: var(--gray-900);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Removed ::before pseudo-element to prevent icon duplication */
+
+.alliance-date-cell {
+  color: var(--gray-600);
+  font-size: var(--font-size-sm);
+}
+
+.alliance-actions-cell {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.alliance-actions-cell .btn {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-xs);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+}
+
+/* Event Assignment Modal */
+.event-assignment-modal .modal-body {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.event-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  background: var(--gray-50);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--gray-200);
+  transition: all var(--transition-normal);
+}
+
+.event-item:hover {
+  background: white;
+  box-shadow: var(--shadow-sm);
+  transform: translateX(4px);
+}
+
+.event-info h4 {
+  font-weight: 600;
+  color: var(--gray-900);
+  margin: 0 0 var(--space-1) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.event-info h4::before {
+  content: '⚔️';
+  font-size: 1rem;
+}
+
+.event-info p {
+  color: var(--gray-600);
+  font-size: var(--font-size-sm);
+  margin: 0;
+}
+
+.current-alliance {
+  color: var(--warning-color);
+  font-weight: 600;
+  font-size: var(--font-size-xs);
+}
+
+.event-assign-btn {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-xs);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .alliances {
+    padding: var(--space-6) 0;
+  }
+  
+  .alliances .container {
+    padding: 0 var(--space-4);
+  }
+  
+  .alliances .page-title {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .alliances .page-title::before,
+  .alliances .page-title::after {
+    display: none;
+  }
+  
+  .alliances-stats {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+  
+  .alliances-stats .stat-card {
+    padding: var(--space-6);
+    min-height: 140px;
+  }
+  
+  .alliances-stats .stat-icon {
+    font-size: 2rem;
+    height: 2.5rem;
+  }
+  
+  .alliances-action-bar {
+    flex-direction: column;
+    gap: var(--space-4);
+    text-align: center;
+    padding: var(--space-4);
+  }
+  
+  .alliances-action-bar .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .alliances-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  
+  .alliance-header {
+    padding: var(--space-6);
+  }
+  
+  .alliance-details {
+    padding: var(--space-6);
+  }
+  
+  .alliance-actions {
+    position: static;
+    margin-top: var(--space-4);
+    justify-content: center;
+  }
+  
+  .alliances-table-container {
+    overflow-x: auto;
+  }
+  
+  .alliances-table th,
+  .alliances-table td {
+    padding: var(--space-3);
+    font-size: var(--font-size-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .alliances .page-title {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .alliances-stats .stat-card {
+    padding: var(--space-4);
+    min-height: 120px;
+  }
+  
+  .alliances-stats .stat-icon {
+    font-size: 1.8rem;
+    height: 2rem;
+  }
+  
+  .alliances-stats .stat-number {
+    font-size: 2rem;
+  }
+  
+  .alliance-header,
+  .alliance-details {
+    padding: var(--space-4);
+  }
+  
+  .alliances .empty-state {
+    padding: var(--space-8) var(--space-4);
+  }
+  
+  .alliances .empty-state-icon {
+    font-size: 4rem;
+  }
+  
+  .event-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+  
+  .event-assign-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .alliances,
+  .alliances-stats .stat-card,
+  .alliances-action-bar,
+  .alliances-grid,
+  .alliance-card,
+  .alliances .empty-state,
+  .alliances-table-container {
+    animation: none;
+  }
+  
+  .alliances .page-title::before,
+  .alliances .page-title::after,
+  .alliance-card.has-victories .alliance-name::before,
+  .alliances .empty-state-icon {
+    animation: none;
+  }
+  
+  .alliance-victories::before {
+    animation: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .alliances-stats .stat-card,
+  .alliances-action-bar,
+  .alliance-card,
+  .alliances .empty-state,
+  .alliances-table-container {
+    border: 2px solid var(--gray-900);
+  }
+  
+  .alliances .page-title {
+    -webkit-text-fill-color: var(--gray-900);
+  }
+}
+
+/* Alliances List Interface Styles */
+.alliances-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.alliance-item {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-normal);
+  overflow: hidden;
+}
+
+.alliance-item:hover {
+  border-color: var(--primary-color);
+  box-shadow: var(--shadow-md);
+}
+
+.alliance-item.has-victories {
+  border-color: var(--accent-gold);
+  background: linear-gradient(135deg, 
+    white 0%, 
+    rgba(255, 215, 0, 0.05) 100%
+  );
+}
+
+/* Blacklisted Alliance Styles */
+.alliance-item.blacklisted {
+  border-color: var(--warning-color);
+  background: linear-gradient(135deg, 
+    rgba(254, 243, 199, 0.3) 0%, 
+    rgba(245, 158, 11, 0.05) 100%
+  );
+  opacity: 0.8;
+  position: relative;
+}
+
+.alliance-item.blacklisted::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(245, 158, 11, 0.1) 10px,
+    rgba(245, 158, 11, 0.1) 20px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.alliance-item.blacklisted .alliance-main {
+  position: relative;
+  z-index: 2;
+}
+
+.alliance-item.blacklisted .alliance-name {
+  color: var(--warning-color);
+}
+
+.blacklist-indicator {
+  margin-left: var(--space-2);
+  font-size: 1.1rem;
+  animation: pulse 2s infinite;
+}
+
+.alliance-blacklist-status {
+  background: var(--warning-color);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.alliance-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem 1.5rem;
+  gap: 1rem;
+}
+
+.alliance-info {
+  flex: 1;
+}
+
+.alliance-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.victory-indicator {
+  font-size: 1.2rem;
+  display: inline-block;
+  transform-origin: top center;
+}
+
+.victory-indicator.trophy-animate {
+  animation: trophyFall 1.5s ease-out;
+}
+
+@keyframes trophyFall {
+  0% {
+    transform: translateY(-50px) rotate(-15deg) scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    transform: translateY(-30px) rotate(-10deg) scale(0.7);
+    opacity: 0.7;
+  }
+  40% {
+    transform: translateY(-10px) rotate(-5deg) scale(0.9);
+    opacity: 0.9;
+  }
+  60% {
+    transform: translateY(5px) rotate(2deg) scale(1.1);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(-2px) rotate(-1deg) scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.alliance-details {
+  display: flex;
+  gap: var(--space-3);
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+  align-items: stretch;
+  align-content: flex-start;
+}
+
+.alliance-date, .alliance-victories, .alliance-battle, .alliance-blacklist-status {
+  background: var(--gray-100);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--gray-200);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  min-width: 140px;
+  height: 32px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alliance-victories {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(251, 191, 36, 0.3);
+}
+
+.alliance-battle {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.alliance-blacklist-status {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+}
+
+.blacklist-indicator {
+  font-size: 1rem;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.alliance-description {
+  font-size: 0.875rem;
+  color: var(--gray-700);
+  font-style: italic;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--primary-color);
+}
+
+.alliance-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.alliance-actions .btn {
+  min-width: 40px;
+  height: 36px;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Deploy Dropdown */
+.deploy-dropdown {
+  position: relative;
+}
+
+.deploy-btn {
+  cursor: pointer;
+}
+
+.deploy-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  min-width: 200px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all var(--transition-normal);
+}
+
+.deploy-dropdown:hover .deploy-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.deploy-menu-header {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  border-bottom: 1px solid var(--gray-200);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.deploy-menu-item {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  background: transparent;
+  border: none;
+  text-align: left;
+  color: var(--gray-900);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+.deploy-menu-item:hover {
+  background: var(--gray-100);
+  color: var(--primary-color);
+}
+
+.deploy-menu-empty {
+  padding: 0.75rem;
+  color: var(--gray-600);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Alliance Forms */
+.alliance-form-card, .alliance-edit-form {
+  background: white;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.alliance-form-card .form-header, 
+.alliance-edit-form .form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.alliance-form-card .form-header h3, 
+.alliance-form-card .form-header h4,
+.alliance-edit-form .form-header h3, 
+.alliance-edit-form .form-header h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.alliance-form-card .form-body,
+.alliance-edit-form .form-body {
+  padding: 1.5rem;
+}
+
+.alliance-form-card .form-group,
+.alliance-edit-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.alliance-form-card .form-group label,
+.alliance-edit-form .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--gray-900);
+}
+
+.alliance-form-card .form-group input,
+.alliance-form-card .form-group textarea,
+.alliance-edit-form .form-group input,
+.alliance-edit-form .form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  background: white;
+  color: var(--gray-900);
+  font-size: 0.9rem;
+  transition: all var(--transition-normal);
+  font-family: inherit;
+  resize: vertical;
+}
+
+.alliance-form-card .form-group input:focus,
+.alliance-form-card .form-group textarea:focus,
+.alliance-edit-form .form-group input:focus,
+.alliance-edit-form .form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.alliance-form-card .form-actions,
+.alliance-edit-form .form-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+/* Blacklist Button Styles */
+.btn-outline-warning {
+  background: transparent;
+  color: var(--warning-color);
+  border: 1px solid var(--warning-color);
+}
+
+.btn-outline-warning:hover {
+  background: var(--warning-color);
+  color: white;
+}
+
+.btn-warning {
+  background: var(--warning-color);
+  color: white;
+  border: 1px solid var(--warning-color);
+}
+
+.btn-warning:hover {
+  background: var(--warning-dark);
+  border-color: var(--warning-dark);
+}

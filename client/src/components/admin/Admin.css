@@ -1,0 +1,393 @@
+.admin {
+  padding: 20px 0;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.tab-button {
+  padding: 12px 24px;
+  border: none;
+  background: none;
+  color: #666;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+  color: #007bff;
+  background: #f8f9ff;
+}
+
+.tab-button.active {
+  color: #007bff;
+  border-bottom-color: #007bff;
+  background: #f8f9ff;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.username {
+  font-weight: 600;
+  color: #333;
+}
+
+.admin-badge {
+  background: #dc3545;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.role-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.role-badge.admin {
+  background: #dc3545;
+  color: white;
+}
+
+.role-badge.user {
+  background: #6c757d;
+  color: white;
+}
+
+.database-info {
+  font-family: monospace;
+  background: #f8f9fa;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.system-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.info-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.info-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #007bff;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.empty-state-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.empty-state-text {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .card-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+  
+  .card-header .btn {
+    width: 100%;
+  }
+  
+  .action-buttons {
+    justify-content: center;
+  }
+  
+  .action-buttons .btn {
+    flex: 1;
+    min-width: 80px;
+  }
+  
+  .system-info {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .action-buttons .btn {
+    width: 100%;
+  }
+}
+
+.feedback-stats {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.stat-item {
+  padding: 4px 8px;
+  background: #e9ecef;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+}
+
+.feedback-type {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: white;
+}
+
+.feedback-type.bug {
+  background: #dc3545;
+}
+
+.feedback-type.feature {
+  background: #17a2b8;
+}
+
+.feedback-type.improvement {
+  background: #28a745;
+}
+
+.feedback-type.general {
+  background: #6c757d;
+}
+
+.feedback-subject {
+  font-weight: 500;
+  color: #333;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.feedback-from {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.feedback-email {
+  font-size: 12px;
+  color: #666;
+  font-family: monospace;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: white;
+}
+
+.status-badge.new {
+  background: #007bff;
+}
+
+.status-badge.in_progress {
+  background: #ffc107;
+  color: #333;
+}
+
+.status-badge.resolved {
+  background: #28a745;
+}
+
+.status-badge.closed {
+  background: #6c757d;
+}
+
+@media (max-width: 768px) {
+  .admin-tabs {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .tab-button {
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .feedback-stats {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  
+  .feedback-subject {
+    max-width: 150px;
+  }
+}
+
+/* Patch Notes Styles */
+.patch-notes-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.edit-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.patch-notes-editor {
+  margin-top: var(--space-4);
+}
+
+.patch-notes-textarea {
+  width: 100%;
+  min-height: 400px;
+  padding: var(--space-4);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  resize: vertical;
+  background: var(--gray-50);
+  color: var(--gray-800);
+  transition: all var(--transition-fast);
+}
+
+.patch-notes-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: white;
+}
+
+.patch-notes-preview {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  min-height: 400px;
+  overflow-x: auto;
+}
+
+.patch-notes-content {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  color: var(--gray-800);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+.patch-notes-content h1,
+.patch-notes-content h2,
+.patch-notes-content h3 {
+  color: var(--primary-color);
+  margin: var(--space-4) 0 var(--space-2) 0;
+  font-weight: 700;
+}
+
+.patch-notes-content h1 {
+  font-size: var(--font-size-2xl);
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: var(--space-2);
+}
+
+.patch-notes-content h2 {
+  font-size: var(--font-size-xl);
+  border-bottom: 1px solid var(--gray-300);
+  padding-bottom: var(--space-1);
+}
+
+.patch-notes-content h3 {
+  font-size: var(--font-size-lg);
+}
+
+.patch-notes-content ul {
+  margin: var(--space-2) 0;
+  padding-left: var(--space-6);
+}
+
+.patch-notes-content li {
+  margin: var(--space-1) 0;
+  list-style-type: disc;
+}
+
+.patch-notes-content strong {
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.patch-notes-content em {
+  font-style: italic;
+  color: var(--gray-700);
+}
+
+.patch-notes-empty {
+  color: var(--gray-500);
+  font-style: italic;
+  text-align: center;
+  padding: var(--space-8);
+}
