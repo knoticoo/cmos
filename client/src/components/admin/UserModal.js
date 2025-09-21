@@ -32,6 +32,12 @@ const UserModal = ({ user, onClose, onSave }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Prevent double submission
+    if (loading) {
+      return;
+    }
+    
     setLoading(true);
     setError('');
 
