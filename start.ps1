@@ -1,161 +1,286 @@
-# Unified Service Management Script
-# This script will intelligently manage services:
-# - Start services if they're not running
-# - Kill and restart services if they are running
+# Management Web App - Windows PowerShell Startup Script
+# This script installs dependencies, starts services, and handles restarts
 
 param(
-    [switch]$Force = $false
+    [string]$Action = "start"
 )
 
-Write-Host "🚀 CMOS Service Manager" -ForegroundColor Cyan
-Write-Host "=========================" -ForegroundColor Cyan
+# Configuration
+$ProjectDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$ServerDir = Join-Path $ProjectDir "server"
+$ClientDir = Join-Path $ProjectDir "client"
+$PidFile = Join-Path $ProjectDir ".app.pid"
+$LogFile = Join-Path $ProjectDir "app.log"
 
-# Function to check if services are running
-function Test-ServicesRunning {
-    $nodeProcesses = Get-Process -Name "node" -ErrorAction SilentlyContinue
-    $port5000 = Get-NetTCPConnection -LocalPort 5000 -ErrorAction SilentlyContinue
-    $port3000 = Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue
-    
-    return ($nodeProcesses -or $port5000 -or $port3000)
+# Function to print colored output
+function Write-Status {
+    param([string]$Message)
+    Write-Host "[INFO] $Message" -ForegroundColor Blue
 }
 
-# Function to kill all services
-function Stop-AllServices {
-    Write-Host "🛑 Stopping all running services..." -ForegroundColor Yellow
-    
-    # Kill Node.js processes
-    $nodeProcesses = Get-Process -Name "node" -ErrorAction SilentlyContinue
-    if ($nodeProcesses) {
-        Write-Host "   Found $($nodeProcesses.Count) Node.js processes" -ForegroundColor Yellow
-        foreach ($process in $nodeProcesses) {
-            try {
-                Write-Host "   Killing process $($process.Id) ($($process.ProcessName))" -ForegroundColor Gray
-                Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
-            }
-            catch {
-                # Ignore errors for processes that might already be dead
-            }
-        }
+function Write-Success {
+    param([string]$Message)
+    Write-Host "[SUCCESS] $Message" -ForegroundColor Green
+}
+
+function Write-Warning {
+    param([string]$Message)
+    Write-Host "[WARNING] $Message" -ForegroundColor Yellow
+}
+
+function Write-Error {
+    param([string]$Message)
+    Write-Host "[ERROR] $Message" -ForegroundColor Red
+}
+
+# Function to check if Node.js is installed
+function Test-NodeInstalled {
+    try {
+        $nodeVersion = node --version
+        $versionNumber = [int]($nodeVersion -replace 'v(\d+)\..*', '$1')
+        return $versionNumber -ge 18
     }
-    
-    # Kill npm processes
-    $npmProcesses = Get-Process -Name "npm" -ErrorAction SilentlyContinue
-    if ($npmProcesses) {
-        Write-Host "   Found $($npmProcesses.Count) npm processes" -ForegroundColor Yellow
-        foreach ($process in $npmProcesses) {
-            try {
-                Write-Host "   Killing process $($process.Id) ($($process.ProcessName))" -ForegroundColor Gray
-                Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
-            }
-            catch {
-                # Ignore errors for processes that might already be dead
-            }
-        }
+    catch {
+        return $false
     }
-    
-    # Kill processes using ports
-    $port5000Processes = Get-NetTCPConnection -LocalPort 5000 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique
-    $port3000Processes = Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique
-    
-    foreach ($processId in ($port5000Processes + $port3000Processes)) {
+}
+
+# Function to check if process is running
+function Test-IsRunning {
+    if (Test-Path $PidFile) {
+        $pid = Get-Content $PidFile
         try {
-            $process = Get-Process -Id $processId -ErrorAction SilentlyContinue
-            if ($process) {
-                Write-Host "   Killing process $processId ($($process.ProcessName)) using port" -ForegroundColor Gray
-                Stop-Process -Id $processId -Force -ErrorAction SilentlyContinue
+            $process = Get-Process -Id $pid -ErrorAction SilentlyContinue
+            return $process -ne $null
+        }
+        catch {
+            Remove-Item $PidFile -Force
+            return $false
+        }
+    }
+    return $false
+}
+
+# Function to stop existing processes
+function Stop-Services {
+    Write-Status "Checking for running services..."
+    
+    if (Test-IsRunning) {
+        $pid = Get-Content $PidFile
+        Write-Warning "Found running process (PID: $pid). Stopping..."
+        try {
+            Stop-Process -Id $pid -Force
+            Start-Sleep -Seconds 2
+            Remove-Item $PidFile -Force
+            Write-Success "Services stopped"
+        }
+        catch {
+            Write-Warning "Process may have already stopped"
+            Remove-Item $PidFile -Force -ErrorAction SilentlyContinue
+        }
+    }
+    else {
+        Write-Status "No running services found"
+    }
+}
+
+# Function to install Node.js
+function Install-NodeJS {
+    if (-not (Test-NodeInstalled)) {
+        Write-Status "Installing Node.js 18.x..."
+        try {
+            # Download and install Node.js using winget or chocolatey
+            if (Get-Command winget -ErrorAction SilentlyContinue) {
+                winget install OpenJS.NodeJS
+            }
+            elseif (Get-Command choco -ErrorAction SilentlyContinue) {
+                choco install nodejs --version=18.19.0
+            }
+            else {
+                Write-Error "Please install Node.js 18.x manually from https://nodejs.org/"
+                exit 1
             }
         }
         catch {
-            # Ignore errors
+            Write-Error "Failed to install Node.js. Please install manually from https://nodejs.org/"
+            exit 1
         }
     }
+    else {
+        Write-Success "Node.js $(node --version) already installed"
+    }
+}
+
+# Function to install project dependencies
+function Install-ProjectDeps {
+    Write-Status "Installing project dependencies..."
     
-    # Wait for processes to fully terminate
-    Start-Sleep -Seconds 3
-    Write-Host "   ✅ All services stopped" -ForegroundColor Green
+    # Install server dependencies
+    if (Test-Path $ServerDir) {
+        Write-Status "Installing server dependencies..."
+        Set-Location $ServerDir
+        npm install --production
+        Set-Location $ProjectDir
+    }
+    
+    # Install client dependencies
+    if (Test-Path $ClientDir) {
+        Write-Status "Installing client dependencies..."
+        Set-Location $ClientDir
+        npm install
+        npm run build
+        Set-Location $ProjectDir
+    }
+    
+    Write-Success "Project dependencies installed"
+}
+
+# Function to create environment file
+function Setup-Environment {
+    Write-Status "Setting up environment configuration..."
+    
+    $envFile = Join-Path $ServerDir ".env"
+    if (-not (Test-Path $envFile)) {
+        Write-Status "Creating .env file..."
+        $envContent = @"
+# Server Configuration
+PORT=5000
+NODE_ENV=production
+
+# Database Configuration
+DB_PATH=./database.sqlite
+
+# JWT Configuration
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+JWT_EXPIRES_IN=24h
+
+# Admin Configuration
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
+ADMIN_EMAIL=admin@example.com
+
+# PayPal Configuration (Optional)
+PAYPAL_CLIENT_ID=your-paypal-client-id
+PAYPAL_CLIENT_SECRET=your-paypal-client-secret
+
+# CORS Configuration
+CORS_ORIGIN=http://localhost:3000
+"@
+        $envContent | Out-File -FilePath $envFile -Encoding UTF8
+        Write-Warning "Created default .env file. Please update with your actual configuration!"
+    }
+    else {
+        Write-Success "Environment file already exists"
+    }
 }
 
 # Function to start services
-function Start-AllServices {
-    Write-Host "🚀 Starting all services..." -ForegroundColor Yellow
+function Start-Services {
+    Write-Status "Starting services..."
     
-    # Start backend server
-    Write-Host "   Starting backend server (port 5000)..." -ForegroundColor Gray
-    Start-Process -FilePath "powershell" -ArgumentList "-NoExit", "-Command", "cd server; npm start" -WindowStyle Minimized
+    # Start server in background
+    $serverProcess = Start-Process -FilePath "node" -ArgumentList "index.js" -WorkingDirectory $ServerDir -PassThru -WindowStyle Hidden
+    $serverProcess.Id | Out-File -FilePath $PidFile -Encoding ASCII
     
-    # Wait a moment for backend to start
+    # Wait a moment for server to start
     Start-Sleep -Seconds 3
     
-    # Start frontend server
-    Write-Host "   Starting frontend server (port 3000)..." -ForegroundColor Gray
-    Start-Process -FilePath "powershell" -ArgumentList "-NoExit", "-Command", "cd client; npm start" -WindowStyle Minimized
+    # Check if server is running
+    if ($serverProcess.HasExited) {
+        Write-Error "Failed to start server. Check logs for details."
+        exit 1
+    }
+    else {
+        Write-Success "Services started successfully!"
+        Write-Status "Server running on: http://localhost:5000"
+        Write-Status "Client build available in: $ClientDir\build"
+        Write-Status "Process ID: $($serverProcess.Id)"
+        Write-Status "Logs: $LogFile"
+    }
+}
+
+# Function to show status
+function Show-Status {
+    Write-Status "Application Status:"
+    Write-Host "===================="
     
-    # Wait for services to fully start
-    Write-Host "   Waiting for services to initialize..." -ForegroundColor Gray
-    Start-Sleep -Seconds 5
-    
-    # Verify services are running
-    $maxAttempts = 10
-    $attempt = 0
-    $servicesReady = $false
-    
-    while ($attempt -lt $maxAttempts -and -not $servicesReady) {
-        $attempt++
-        Write-Host "   Checking services... (attempt $attempt/$maxAttempts)" -ForegroundColor Gray
-        
-        $port5000 = Get-NetTCPConnection -LocalPort 5000 -ErrorAction SilentlyContinue
-        $port3000 = Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue
-        
-        if ($port5000 -and $port3000) {
-            $servicesReady = $true
-            Write-Host "   ✅ All services are running!" -ForegroundColor Green
-        } else {
-            Start-Sleep -Seconds 2
+    if (Test-IsRunning) {
+        $pid = Get-Content $PidFile
+        $process = Get-Process -Id $pid -ErrorAction SilentlyContinue
+        if ($process) {
+            Write-Success "Server is running (PID: $pid)"
+            Write-Status "Server URL: http://localhost:5000"
+            Write-Status "Process started: $($process.StartTime)"
+        }
+        else {
+            Write-Warning "PID file exists but process not found"
         }
     }
-    
-    if (-not $servicesReady) {
-        Write-Host "   ⚠️  Services may still be starting up..." -ForegroundColor Yellow
+    else {
+        Write-Warning "No services running"
     }
 }
 
-# Main logic
-$servicesRunning = Test-ServicesRunning
-
-if ($servicesRunning -and -not $Force) {
-    Write-Host "⚠️  Services are already running!" -ForegroundColor Yellow
-    Write-Host "   Backend: http://localhost:5000" -ForegroundColor Gray
-    Write-Host "   Frontend: http://localhost:3000" -ForegroundColor Gray
+# Function to show help
+function Show-Help {
+    Write-Host "Management Web App - Windows PowerShell Startup Script"
+    Write-Host "====================================================="
     Write-Host ""
-    Write-Host "Options:" -ForegroundColor Cyan
-    Write-Host "   • Run with -Force to restart services" -ForegroundColor White
-    Write-Host "   • Use .\kill-services.ps1 to stop services" -ForegroundColor White
-    Write-Host "   • Use .\start-services.ps1 to start services" -ForegroundColor White
+    Write-Host "Usage: .\start.ps1 [OPTION]"
     Write-Host ""
-    $response = Read-Host "Do you want to restart services? (y/N)"
-    
-    if ($response -eq "y" -or $response -eq "Y" -or $response -eq "yes") {
-        Stop-AllServices
-        Start-AllServices
-    } else {
-        Write-Host "   Services left running." -ForegroundColor Green
-        exit 0
-    }
-} elseif ($servicesRunning -and $Force) {
-    Write-Host "🔄 Force restart requested..." -ForegroundColor Yellow
-    Stop-AllServices
-    Start-AllServices
-} else {
-    Write-Host "✅ No services running, starting fresh..." -ForegroundColor Green
-    Start-AllServices
+    Write-Host "Options:"
+    Write-Host "  start     Start/restart the application (default)"
+    Write-Host "  stop      Stop the application"
+    Write-Host "  restart   Restart the application"
+    Write-Host "  status    Show application status"
+    Write-Host "  install   Install dependencies only"
+    Write-Host "  help      Show this help message"
+    Write-Host ""
+    Write-Host "Examples:"
+    Write-Host "  .\start.ps1                # Start/restart application"
+    Write-Host "  .\start.ps1 start          # Start/restart application"
+    Write-Host "  .\start.ps1 stop           # Stop application"
+    Write-Host "  .\start.ps1 status         # Show status"
 }
 
-Write-Host ""
-Write-Host "🎯 Service management completed!" -ForegroundColor Cyan
-Write-Host "   Backend: http://localhost:5000" -ForegroundColor White
-Write-Host "   Frontend: http://localhost:3000" -ForegroundColor White
-Write-Host ""
-Write-Host "💡 Tips:" -ForegroundColor Yellow
-Write-Host "   • Use .\start.ps1 -Force to force restart" -ForegroundColor Gray
-Write-Host "   • Use .\kill-services.ps1 to stop all services" -ForegroundColor Gray
-Write-Host "   • Check taskbar for minimized PowerShell windows" -ForegroundColor Gray
+# Main script logic
+switch ($Action.ToLower()) {
+    "start" {
+        Write-Status "Starting Management Web App..."
+        Stop-Services
+        Install-NodeJS
+        Install-ProjectDeps
+        Setup-Environment
+        Start-Services
+        Show-Status
+    }
+    "restart" {
+        Write-Status "Restarting Management Web App..."
+        Stop-Services
+        Start-Services
+        Show-Status
+    }
+    "stop" {
+        Write-Status "Stopping Management Web App..."
+        Stop-Services
+        Write-Success "Application stopped"
+    }
+    "status" {
+        Show-Status
+    }
+    "install" {
+        Write-Status "Installing dependencies only..."
+        Install-NodeJS
+        Install-ProjectDeps
+        Setup-Environment
+        Write-Success "Dependencies installed. Run '.\start.ps1 start' to start the application."
+    }
+    "help" {
+        Show-Help
+    }
+    default {
+        Write-Error "Unknown option: $Action"
+        Show-Help
+        exit 1
+    }
+}
