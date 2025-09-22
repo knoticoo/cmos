@@ -1,0 +1,80 @@
+{
+  "short_name": "Kings Choice MVP",
+  "name": "Kings Choice MVP - Kingdom Management System",
+  "description": "Strategic kingdom management for epic battles, warrior recruitment, and alliance forging",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#667eea",
+  "background_color": "#f8fafc",
+  "orientation": "portrait-primary",
+  "categories": ["games", "productivity", "utilities"],
+  "lang": "en",
+  "scope": "/",
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View kingdom statistics and overview",
+      "url": "/",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Warriors",
+      "short_name": "Warriors",
+      "description": "Manage your kingdom warriors",
+      "url": "/players",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Battles",
+      "short_name": "Battles",
+      "description": "View and manage battle events",
+      "url": "/events",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Alliances",
+      "short_name": "Alliances",
+      "description": "Forge and manage kingdom alliances",
+      "url": "/alliances",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Kings Choice MVP Dashboard"
+    },
+    {
+      "src": "screenshot-narrow.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Kings Choice MVP Mobile"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
