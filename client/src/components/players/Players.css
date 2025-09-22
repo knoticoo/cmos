@@ -671,19 +671,20 @@
 }
 
 .player-holidays {
-  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
   color: white;
-  padding: var(--space-1);
+  padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-full);
   font-weight: 600;
-  font-size: var(--font-size-sm);
-  box-shadow: 0 2px 4px rgba(251, 191, 36, 0.3);
+  font-size: var(--font-size-xs);
+  box-shadow: 0 2px 4px rgba(6, 182, 212, 0.3);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
+  gap: var(--space-1);
+  white-space: nowrap;
+  min-width: fit-content;
+  height: 28px;
 }
 
 .player-battle {

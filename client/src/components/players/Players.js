@@ -390,7 +390,7 @@ const Players = () => {
                         </span>
                       )}
                       {player.is_on_holidays && (
-                        <span className="player-holidays">🏖️</span>
+                        <span className="player-holidays">🏖️ On Holiday</span>
                       )}
                     </div>
                   </div>

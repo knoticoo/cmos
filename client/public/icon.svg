@@ -1,0 +1,38 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="64" fill="url(#gradient)" />
+  
+  <!-- Crown -->
+  <path d="M128 256L160 192L200 224L256 176L312 224L352 192L384 256V320H128V256Z" fill="#FFD700" stroke="#FFA500" stroke-width="4"/>
+  
+  <!-- Crown Gems -->
+  <circle cx="160" cy="208" r="8" fill="#FF6B6B"/>
+  <circle cx="256" cy="192" r="10" fill="#4ECDC4"/>
+  <circle cx="352" cy="208" r="8" fill="#FF6B6B"/>
+  
+  <!-- Shield -->
+  <path d="M256 288C256 288 192 304 192 368C192 432 256 464 256 464C256 464 320 432 320 368C320 304 256 288 256 288Z" fill="url(#shieldGradient)" stroke="#667eea" stroke-width="3"/>
+  
+  <!-- Sword -->
+  <rect x="248" y="320" width="16" height="80" rx="2" fill="#C0C0C0"/>
+  <rect x="244" y="400" width="24" height="12" rx="2" fill="#8B4513"/>
+  
+  <!-- Sparkles -->
+  <g opacity="0.8">
+    <path d="M100 120L104 128L112 132L104 136L100 144L96 136L88 132L96 128L100 120Z" fill="#FFD700"/>
+    <path d="M420 140L422 144L428 146L422 148L420 152L418 148L412 146L418 144L420 140Z" fill="#FFD700"/>
+    <path d="M80 380L84 388L92 392L84 396L80 404L76 396L68 392L76 388L80 380Z" fill="#FFD700"/>
+    <path d="M440 360L442 364L448 366L442 368L440 372L438 368L432 366L438 364L440 360Z" fill="#FFD700"/>
+  </g>
+  
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e2e8f0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>
